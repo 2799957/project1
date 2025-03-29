@@ -79,8 +79,7 @@ export default function SelectedPublications({
             Очистить
           </Button>
           <Button 
-            variant="secondary" 
-            className="bg-secondary hover:bg-secondary-dark text-white"
+            className="bg-blue-500 hover:bg-blue-600 text-white"
             onClick={handleCopyAll}
           >
             <Copy className="h-4 w-4 mr-2" />
