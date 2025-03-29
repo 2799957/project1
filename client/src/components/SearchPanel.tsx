@@ -54,28 +54,24 @@ export default function SearchPanel({ onSearch }: SearchPanelProps) {
       <div className="mb-6">
         <h2 className="text-xl font-serif font-bold text-primary mb-4">Поиск публикаций</h2>
         
-        <div className="relative">
-          <Input 
-            type="text" 
-            placeholder="Введите запрос для поиска..." 
-            className="w-full px-4 py-3 pr-12"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+        <div className="flex">
+          <div className="relative flex-grow">
+            <Input 
+              type="text" 
+              placeholder="Введите запрос для поиска..." 
+              className="w-full px-4 py-3"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            />
+          </div>
           <Button 
-            variant="ghost" 
-            className="absolute right-12 top-2 h-8 px-4 text-secondary hover:text-secondary-dark hover:bg-transparent"
+            variant="default"
+            className="ml-2 bg-primary hover:bg-primary-dark text-white flex items-center"
             onClick={handleSearch}
           >
-            Поиск
-          </Button>
-          <Button 
-            variant="ghost" 
-            className="absolute right-2 top-2 h-8 w-8 p-0 text-secondary hover:text-secondary-dark hover:bg-transparent"
-            onClick={handleSearch}
-          >
-            <Search className="h-5 w-5" />
-            <span className="sr-only">Поиск</span>
+            <span className="mr-1">Поиск</span>
+            <Search className="h-4 w-4" />
           </Button>
         </div>
       </div>
