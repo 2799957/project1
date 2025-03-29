@@ -26,8 +26,8 @@ export default function Header() {
             Добавить публикацию
           </Button>
           <Button 
-            variant="default" 
-            className="bg-secondary hover:bg-secondary-dark text-white"
+            variant="accent" 
+            className="bg-[#ED7D31] hover:bg-[#D26520] text-white"
             onClick={() => setIsExportModalOpen(true)}
           >
             <Download className="mr-2 h-4 w-4" />

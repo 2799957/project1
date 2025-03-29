@@ -87,7 +87,8 @@ export default function SelectedPublications({
             Копировать
           </Button>
           <Button 
-            className="bg-primary hover:bg-primary-dark text-white"
+            variant="accent" 
+            className="bg-[#ED7D31] hover:bg-[#D26520] text-white"
             onClick={() => setShowExportModal(true)}
           >
             <Download className="h-4 w-4 mr-2" />
