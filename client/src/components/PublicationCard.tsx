@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Eye, Quote } from "lucide-react";
+import { Eye, Quote, ChevronDown, ChevronUp } from "lucide-react";
 import { getCategoryColorClass } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useState } from "react";
@@ -18,6 +18,7 @@ interface PublicationCardProps {
 export default function PublicationCard({ publication, isSelected, onSelect }: PublicationCardProps) {
   const [showViewDialog, setShowViewDialog] = useState(false);
   const [showCiteDialog, setShowCiteDialog] = useState(false);
+  const [showAbstract, setShowAbstract] = useState(false);
   const { toast } = useToast();
 
   const handleCheckboxChange = (checked: boolean) => {
@@ -34,6 +35,10 @@ export default function PublicationCard({ publication, isSelected, onSelect }: P
       variant: success ? 'default' : 'destructive',
     });
   };
+  
+  const toggleAbstract = () => {
+    setShowAbstract(!showAbstract);
+  };
 
   const categoryColor = getCategoryColorClass(publication.category || '');
 
@@ -42,7 +47,28 @@ export default function PublicationCard({ publication, isSelected, onSelect }: P
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="p-5">
           <div className="flex justify-between items-start">
-            <h3 className="text-lg font-medium text-primary mb-2">{publication.title}</h3>
+            <div className="flex flex-col">
+              <button 
+                className="text-lg font-medium text-primary mb-2 text-left hover:text-primary-dark flex items-center cursor-pointer"
+                onClick={toggleAbstract}
+                aria-expanded={showAbstract}
+              >
+                <span>{publication.title}</span>
+                {publication.abstract && (
+                  <span className="ml-2 inline-flex items-center">
+                    {showAbstract ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                  </span>
+                )}
+              </button>
+              
+              {/* Отображение аннотации (скрывается/показывается по клику) */}
+              {showAbstract && publication.abstract && (
+                <div className="mb-3 p-3 bg-neutral-50 rounded-md text-sm text-neutral-700 border border-neutral-200">
+                  <h4 className="font-medium mb-1">Аннотация:</h4>
+                  <p>{publication.abstract}</p>
+                </div>
+              )}
+            </div>
             <div className="flex items-center ml-3">
               <Checkbox 
                 className="h-5 w-5 text-secondary border-neutral-300 rounded focus:ring-secondary" 
