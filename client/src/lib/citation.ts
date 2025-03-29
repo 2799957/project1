@@ -16,57 +16,71 @@ export function formatGOST(publication: Publication): string {
   
   let result = '';
   
-  // Авторы
-  if (publication.authors) {
-    result += publication.authors;
+  // Получаем список авторов
+  const authors = publication.authors ? publication.authors.split(',').map(author => author.trim()) : [];
+  const firstAuthor = authors.length > 0 ? authors[0] : '';
+  
+  // Первый автор
+  if (firstAuthor) {
+    result += firstAuthor;
   }
   
   // Название публикации
   if (publication.title) {
-    result += ` ${publication.title} // `;
+    result += `, ${publication.title} / `;
   }
+  
+  // Все авторы с инициалами сначала (преобразование формата)
+  if (authors.length > 0) {
+    // Предполагаем, что авторы записаны как "Фамилия И.О."
+    // Преобразуем в формат "И.О. Фамилия"
+    const formattedAuthors = authors.map(author => {
+      const parts = author.split(' ');
+      if (parts.length >= 2) {
+        const surname = parts[0];
+        const initials = parts.slice(1).join(' ');
+        return `${initials} ${surname}`;
+      }
+      return author;
+    });
+    
+    result += formattedAuthors.join(', ');
+  }
+  
+  // Разделитель перед журналом
+  result += ' // ';
   
   // Журнал
   if (publication.journal) {
-    result += `${publication.journal}. – `;
+    result += publication.journal;
   }
   
   // Год
   if (publication.year) {
-    result += `${publication.year}. – `;
+    result += `, ${publication.year}`;
   }
   
   // Том и номер
-  if (publication.volume || publication.issue) {
-    result += 'Т. ';
-    if (publication.volume) {
-      result += publication.volume;
-    }
-    if (publication.issue) {
-      result += `, № ${publication.issue}`;
-    }
-    result += '. – ';
+  if (publication.volume) {
+    result += `, т. ${publication.volume}`;
+  }
+  if (publication.issue) {
+    result += `, № ${publication.issue}`;
   }
   
   // Страницы
   if (publication.pages) {
-    result += `С. ${publication.pages}`;
+    result += `, с. ${publication.pages}`;
   }
   
   // DOI
   if (publication.doi) {
-    result += `. – DOI: ${publication.doi}`;
+    result += `, doi: ${publication.doi}`;
   }
   
   // Категория
   if (publication.category) {
-    result += `. – (${publication.category}`;
-    if (publication.database && publication.database.includes('ВАК')) {
-      result += ', ВАК';
-    } else if (publication.database && publication.database.includes('РИНЦ')) {
-      result += ', РИНЦ';
-    }
-    result += ')';
+    result += ` (${publication.category})`;
   }
   
   return result;

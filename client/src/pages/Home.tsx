@@ -6,6 +6,7 @@ import PublicationCard from "@/components/PublicationCard";
 import SelectedPublications from "@/components/SelectedPublications";
 import Pagination from "@/components/Pagination";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SearchPublicationParams, Publication } from "@shared/schema";
 
 export default function Home() {
@@ -113,64 +114,82 @@ export default function Home() {
       <main className="container mx-auto px-4 py-6">
         <SearchPanel onSearch={handleSearch} />
         
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-          <div className="mb-4 md:mb-0">
-            <h2 className="text-xl font-serif font-bold text-primary">Результаты поиска</h2>
-            <p className="text-neutral-600">
-              Найдено: <span>{isLoading ? "..." : data?.total || 0}</span> публикаций
-            </p>
-          </div>
+        <Tabs defaultValue="search" className="mt-6">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="search" className="text-base">Результаты поиска</TabsTrigger>
+            <TabsTrigger value="selected" className="text-base">
+              Выбранные публикации
+              {selectedPublications.length > 0 && (
+                <span className="ml-2 bg-primary text-white rounded-full px-2 py-0.5 text-xs">
+                  {selectedPublications.length}
+                </span>
+              )}
+            </TabsTrigger>
+          </TabsList>
           
-          <div className="flex items-center">
-            <span className="mr-2 text-neutral-700">Сортировать по:</span>
-            <Select value={sortBy} onValueChange={handleSortChange}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Сортировка" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="date-desc">Дате (сначала новые)</SelectItem>
-                <SelectItem value="date-asc">Дате (сначала старые)</SelectItem>
-                <SelectItem value="title">Названию</SelectItem>
-                <SelectItem value="journal">Журналу</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        
-        {isLoading ? (
-          <div className="py-10 text-center text-neutral-500">Загрузка публикаций...</div>
-        ) : isError ? (
-          <div className="py-10 text-center text-red-500">
-            Ошибка при загрузке публикаций. Пожалуйста, попробуйте позже.
-          </div>
-        ) : data.data.length === 0 ? (
-          <div className="py-10 text-center text-neutral-500">
-            Публикации не найдены. Попробуйте изменить параметры поиска.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {data.data.map((publication: Publication) => (
-              <PublicationCard 
-                key={publication.id}
-                publication={publication}
-                isSelected={selectedPublications.some(p => p.id === publication.id)}
-                onSelect={handleSelectPublication}
-              />
-            ))}
-          </div>
-        )}
-        
-        <Pagination 
-          currentPage={searchParams.page || 1} 
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-        
-        <SelectedPublications 
-          publications={selectedPublications}
-          onRemove={handleRemoveSelected}
-          onClear={handleClearSelected}
-        />
+          <TabsContent value="search" className="mt-0">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+              <div className="mb-4 md:mb-0">
+                <h2 className="text-xl font-serif font-bold text-primary">Результаты поиска</h2>
+                <p className="text-neutral-600">
+                  Найдено: <span>{isLoading ? "..." : data?.total || 0}</span> публикаций
+                </p>
+              </div>
+              
+              <div className="flex items-center">
+                <span className="mr-2 text-neutral-700">Сортировать по:</span>
+                <Select value={sortBy} onValueChange={handleSortChange}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Сортировка" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="date-desc">Дате (сначала новые)</SelectItem>
+                    <SelectItem value="date-asc">Дате (сначала старые)</SelectItem>
+                    <SelectItem value="title">Названию</SelectItem>
+                    <SelectItem value="journal">Журналу</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            {isLoading ? (
+              <div className="py-10 text-center text-neutral-500">Загрузка публикаций...</div>
+            ) : isError ? (
+              <div className="py-10 text-center text-red-500">
+                Ошибка при загрузке публикаций. Пожалуйста, попробуйте позже.
+              </div>
+            ) : data.data.length === 0 ? (
+              <div className="py-10 text-center text-neutral-500">
+                Публикации не найдены. Попробуйте изменить параметры поиска.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                {data.data.map((publication: Publication) => (
+                  <PublicationCard 
+                    key={publication.id}
+                    publication={publication}
+                    isSelected={selectedPublications.some(p => p.id === publication.id)}
+                    onSelect={handleSelectPublication}
+                  />
+                ))}
+              </div>
+            )}
+            
+            <Pagination 
+              currentPage={searchParams.page || 1} 
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </TabsContent>
+          
+          <TabsContent value="selected" className="mt-0">
+            <SelectedPublications 
+              publications={selectedPublications}
+              onRemove={handleRemoveSelected}
+              onClear={handleClearSelected}
+            />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );

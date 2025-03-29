@@ -64,6 +64,13 @@ export default function SearchPanel({ onSearch }: SearchPanelProps) {
           />
           <Button 
             variant="ghost" 
+            className="absolute right-12 top-2 h-8 px-4 text-secondary hover:text-secondary-dark hover:bg-transparent"
+            onClick={handleSearch}
+          >
+            Поиск
+          </Button>
+          <Button 
+            variant="ghost" 
             className="absolute right-2 top-2 h-8 w-8 p-0 text-secondary hover:text-secondary-dark hover:bg-transparent"
             onClick={handleSearch}
           >
