@@ -22,7 +22,7 @@ export function formatPublicationGOST(publication: any): string {
   
   // Название публикации
   if (publication.title) {
-    result += `, ${publication.title} / `;
+    result += ` ${publication.title} / `;
   }
   
   // Все авторы с инициалами сначала (преобразование формата)
