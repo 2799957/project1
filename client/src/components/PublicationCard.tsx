@@ -109,16 +109,14 @@ export default function PublicationCard({ publication, isSelected, onSelect }: P
           
           <div className="flex justify-end">
             <Button 
-              variant="ghost" 
-              className="text-secondary hover:text-secondary-dark mr-4"
+              className="bg-blue-500 hover:bg-blue-600 text-white mr-4"
               onClick={() => setShowViewDialog(true)}
             >
               <Eye className="h-4 w-4 mr-1" />
               Просмотр
             </Button>
             <Button 
-              variant="ghost" 
-              className="text-secondary hover:text-secondary-dark"
+              className="bg-blue-500 hover:bg-blue-600 text-white"
               onClick={() => setShowCiteDialog(true)}
             >
               <Quote className="h-4 w-4 mr-1" />
@@ -233,7 +231,7 @@ export default function PublicationCard({ publication, isSelected, onSelect }: P
           </div>
           
           <div className="flex justify-end">
-            <Button onClick={handleCopy}>
+            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleCopy}>
               Копировать
             </Button>
           </div>
