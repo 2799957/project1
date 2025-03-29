@@ -71,16 +71,15 @@ export default function SelectedPublications({
         </div>
         <div className="flex space-x-3">
           <Button 
-            variant="ghost" 
-            className="text-red-500 hover:text-red-700 flex items-center"
+            variant="outline"
+            className="text-red-500 border-red-500 hover:bg-red-50 hover:text-red-700 flex items-center"
             onClick={onClear}
           >
             <Trash className="h-4 w-4 mr-2" />
             Очистить
           </Button>
           <Button 
-            variant="secondary" 
-            className="bg-secondary hover:bg-secondary-dark text-white"
+            className="bg-primary hover:bg-primary-dark text-white"
             onClick={handleCopyAll}
           >
             <Copy className="h-4 w-4 mr-2" />
