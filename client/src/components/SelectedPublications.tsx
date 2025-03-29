@@ -48,7 +48,7 @@ export default function SelectedPublications({
       <div className="mb-4">
         {publications.map(publication => (
           <div key={publication.id} className="border-b border-neutral-200 pb-3 mb-3">
-            <div className="mb-2 font-mono text-sm">
+            <div className="mb-2 text-sm leading-relaxed bg-neutral-50 p-3 rounded">
               {formatPublicationGOST(publication)}
             </div>
             <div className="flex justify-end">
