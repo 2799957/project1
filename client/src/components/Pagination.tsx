@@ -57,9 +57,9 @@ export default function Pagination({ currentPage, totalPages, onPageChange, isLo
           variant="outline"
           className="px-3 py-2 rounded-l-md border border-neutral-300 bg-white text-neutral-500 hover:bg-neutral-50"
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-          disabled={currentPage === 1}
+          disabled={currentPage === 1 || isLoading}
         >
-          <ChevronLeft className="h-4 w-4" />
+          {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
         
         {pageNumbers.map((page, index) => {
@@ -84,8 +84,13 @@ export default function Pagination({ currentPage, totalPages, onPageChange, isLo
                   : "bg-white text-neutral-700 hover:bg-neutral-50"
               }`}
               onClick={() => onPageChange(page)}
+              disabled={isLoading}
             >
-              {page}
+              {currentPage === page && isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                page
+              )}
             </Button>
           );
         })}
@@ -94,9 +99,9 @@ export default function Pagination({ currentPage, totalPages, onPageChange, isLo
           variant="outline"
           className="px-3 py-2 rounded-r-md border border-neutral-300 bg-white text-neutral-500 hover:bg-neutral-50"
           onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || isLoading}
         >
-          <ChevronRight className="h-4 w-4" />
+          {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ChevronRight className="h-4 w-4" />}
         </Button>
       </nav>
     </div>

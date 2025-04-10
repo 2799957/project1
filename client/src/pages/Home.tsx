@@ -88,17 +88,17 @@ export default function Home() {
   // Управление выбранными публикациями
   const handleSelectPublication = (id: number, isSelected: boolean) => {
     if (isSelected) {
-      const publication = data?.data.find(pub => pub.id === id);
-      if (publication && !selectedPublications.some(p => p.id === id)) {
+      const publication = data?.data.find((pub: Publication) => pub.id === id);
+      if (publication && !selectedPublications.some((p: Publication) => p.id === id)) {
         setSelectedPublications(prev => [...prev, publication]);
       }
     } else {
-      setSelectedPublications(prev => prev.filter(pub => pub.id !== id));
+      setSelectedPublications(prev => prev.filter((pub: Publication) => pub.id !== id));
     }
   };
 
   const handleRemoveSelected = (id: number) => {
-    setSelectedPublications(prev => prev.filter(pub => pub.id !== id));
+    setSelectedPublications(prev => prev.filter((pub: Publication) => pub.id !== id));
   };
 
   const handleClearSelected = () => {
@@ -201,7 +201,7 @@ export default function Home() {
                   <PublicationCard 
                     key={publication.id}
                     publication={publication}
-                    isSelected={selectedPublications.some(p => p.id === publication.id)}
+                    isSelected={selectedPublications.some((p: Publication) => p.id === publication.id)}
                     onSelect={handleSelectPublication}
                   />
                 ))}
@@ -212,6 +212,7 @@ export default function Home() {
               currentPage={searchParams.page || 1} 
               totalPages={totalPages}
               onPageChange={handlePageChange}
+              isLoading={isLoading}
             />
           </TabsContent>
           
