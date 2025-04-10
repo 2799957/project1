@@ -7,6 +7,7 @@ import SelectedPublications from "@/components/SelectedPublications";
 import Pagination from "@/components/Pagination";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
 import { SearchPublicationParams, Publication } from "@shared/schema";
 
 export default function Home() {
@@ -132,7 +133,14 @@ export default function Home() {
               <div className="mb-4 md:mb-0">
                 <h2 className="text-xl font-serif font-bold text-primary">Результаты поиска</h2>
                 <p className="text-neutral-600">
-                  Найдено: <span>{isLoading ? "..." : data?.total || 0}</span> публикаций
+                  Найдено: {isLoading ? (
+                    <span className="inline-flex items-center">
+                      <span className="animate-pulse">...</span>
+                      <span className="ml-2 text-xs text-blue-500">Загрузка данных</span>
+                    </span>
+                  ) : (
+                    <span>{data?.total || 0}</span>
+                  )} публикаций
                 </p>
               </div>
               
@@ -153,7 +161,32 @@ export default function Home() {
             </div>
             
             {isLoading ? (
-              <div className="py-10 text-center text-neutral-500">Загрузка публикаций...</div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                {/* Скелетоны карточек для отображения во время загрузки (имитируем 6 карточек) */}
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden p-5">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="w-3/4">
+                        <Skeleton className="h-6 w-full mb-2" />
+                        <Skeleton className="h-6 w-3/4" />
+                      </div>
+                      <Skeleton className="h-5 w-5 rounded" />
+                    </div>
+                    <Skeleton className="h-4 w-2/3 mb-3" />
+                    <Skeleton className="h-4 w-1/2 mb-3" />
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      <Skeleton className="h-6 w-16 rounded-full" />
+                      <Skeleton className="h-6 w-16 rounded-full" />
+                      <Skeleton className="h-6 w-16 rounded-full" />
+                    </div>
+                    <Skeleton className="h-4 w-3/4 mb-4" />
+                    <div className="flex justify-end">
+                      <Skeleton className="h-10 w-24 mr-2" />
+                      <Skeleton className="h-10 w-24" />
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : isError ? (
               <div className="py-10 text-center text-red-500">
                 Ошибка при загрузке публикаций. Пожалуйста, попробуйте позже.

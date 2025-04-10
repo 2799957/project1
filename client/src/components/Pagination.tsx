@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  isLoading?: boolean;
 }
 
-export default function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+export default function Pagination({ currentPage, totalPages, onPageChange, isLoading = false }: PaginationProps) {
   // Если страниц нет или всего одна страница, не показываем пагинацию
   if (totalPages <= 1) return null;
 

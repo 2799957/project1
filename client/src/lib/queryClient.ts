@@ -7,11 +7,18 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
+// Функция для имитации задержки сетевого запроса
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
+  // Добавляем случайную задержку от 500 до 1500 мс для имитации сетевого запроса
+  const delayTime = Math.floor(Math.random() * 1000) + 500;
+  await delay(delayTime);
+  
   const res = await fetch(url, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
@@ -24,11 +31,17 @@ export async function apiRequest(
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";
+
 export const getQueryFn: <T>(options: {
   on401: UnauthorizedBehavior;
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
+    // Добавляем случайную задержку от 500 до 1500 мс для имитации сетевого запроса
+    const delayTime = Math.floor(Math.random() * 1000) + 500;
+    await delay(delayTime);
+
+    // Обычный запрос
     const res = await fetch(queryKey[0] as string, {
       credentials: "include",
     });
